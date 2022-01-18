@@ -12,3 +12,29 @@ An easy way to orchestrate a workflow by separating each step into its own packa
 
 ## How to run this package?
 From the root of the repository, `go run main.go`
+
+```
+func main() {
+	input := &data.Input{ImportantInput: 1}
+	output := &data.Output{}
+	spew.Dump(input)
+	runner := runner.RunnerImpl{
+		Funcs: map[string]step.Function{
+			"first": &foo.Foo{
+				Name:    "firstfunc",
+				Fail:    "",
+				Success: "second",
+			},
+			"second": &foo.Foo{
+				Name:    "secondfunc",
+				Fail:    "",
+				Success: "",
+			},
+		},
+	}
+
+	err := runner.Run("first", input, output)
+	if err != nil {
+		fmt.Println(err)
+	}
+```
