@@ -17,10 +17,12 @@ func main() {
 	runner := runner.RunnerImpl{
 		Funcs: map[string]step.Function{
 			"first": &foo.Foo{
+				Name:    "firstfunc",
 				Fail:    "",
 				Success: "second",
 			},
 			"second": &foo.Foo{
+				Name:    "secondfunc",
 				Fail:    "",
 				Success: "",
 			},

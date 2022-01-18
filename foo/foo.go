@@ -8,6 +8,7 @@ import (
 )
 
 type Foo struct {
+	Name    string
 	Success string
 	Fail    string
 }
@@ -19,7 +20,7 @@ func (f *Foo) GetConfig() *step.Config {
 }
 
 func (f *Foo) Execute(input interface{}, output interface{}) error {
-	fmt.Println("executing foo.Execute()...")
+	fmt.Printf("executing foo.Execute(%s)\n", f.Name)
 	out := output.(*data.Output)
 	in := input.(*data.Input)
 	out.ImportantOutput = in.ImportantInput + 1
