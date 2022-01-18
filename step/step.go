@@ -6,7 +6,8 @@ type Config struct {
 
 type Function interface {
 	GetConfig() *Config
-	ProceedOnErr() bool
-	GetNext() string
+	OnSuccess() string
+	OnFail() string
+	Validate(input interface{}, output interface{}) error
 	Execute(input interface{}, output interface{}) error
 }

@@ -3,27 +3,46 @@ package foo
 import (
 	"fmt"
 
+	"github.com/jlesko2/step-functions/data"
 	"github.com/jlesko2/step-functions/step"
 )
 
-type Foo struct{}
+type Foo struct {
+	Success string
+	Fail    string
+}
 
 func (f *Foo) GetConfig() *step.Config {
 	return &step.Config{
-		Name: "Foo",
+		Name: "foo",
 	}
 }
 
-func (f *Foo) ProceedOnErr() bool {
-	return false
-}
-
 func (f *Foo) Execute(input interface{}, output interface{}) error {
-	fmt.Println("foo.Execute()...")
-	input := input.(main.Input).Field2 +
-	return fmt.Errorf("hello")
+	fmt.Println("executing foo.Execute()...")
+	out := output.(*data.Output)
+	in := input.(*data.Input)
+	out.ImportantOutput = in.ImportantInput + 1
+	return nil
 }
 
-func (f *Foo) GetNext() string {
-	return ""
+func (f *Foo) OnSuccess() string {
+	return f.Success
+}
+
+func (f *Foo) OnFail() string {
+	return f.Fail
+}
+
+func (f *Foo) Validate(input interface{}, output interface{}) error {
+	_, ok := input.(*data.Input)
+	if !ok {
+		return fmt.Errorf("error: Input is not correct type")
+	}
+	_, ok = output.(*data.Output)
+	if !ok {
+		return fmt.Errorf("error: Output is not correct type")
+	}
+
+	return nil
 }
